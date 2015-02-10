@@ -10,7 +10,7 @@ var connected = false;
 
 socket.on('connect', function () {
     connected = true;
-    console.log('connected to server');
+    console.log('connected to master');
     // If not busy then request a task
     if (connected && !busy) {
         socket.emit('task request', '');
@@ -18,10 +18,10 @@ socket.on('connect', function () {
 });
 
 /**
- * When the server sends a task to the client
+ * When the master sends a task to the worker
  */
 socket.on('task send', function (taskJSON) {
-    console.log('Received a task from server', taskJSON);
+    console.log('Received a task from master', taskJSON);
     var taskParsed = JSON.parse(taskJSON);
     var task = new Task(taskParsed.task, taskParsed.params);
 

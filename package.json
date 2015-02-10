@@ -2,7 +2,7 @@
   "name": "taskmaster",
   "version": "1.0.0",
   "description": "Distributed task runner tool. Designed for tasks that are idempotent.",
-  "main": "server.js",
+  "main": "master.js",
   "dependencies": {
     "mongoose": "^3.8.23",
     "socket.io": "^1.3.3",
@@ -11,7 +11,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node master.js"
   },
   "repository": {
     "type": "git",

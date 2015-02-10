@@ -18,26 +18,26 @@ Tasks.find(function (err, results) {
 
 
 /**
- * When a client establishes/reestablishes connection
+ * When a worker establishes/reestablishes connection
  */
 io.on('connection', function (socket) {
-    console.log('Clients connected: ', findClients().length);
+    console.log('Workers connected: ', findWorkers().length);
 
 
     /**
-     * When the client disconnects
+     * When the worker disconnects
      */
     socket.on('disconnect', function () {
-        console.log('Clients connected: ', findClients().length);
+        console.log('Workers connected: ', findWorkers().length);
     });
 
 
     /**
-     * When the client requests a task
+     * When the worker requests a task
      */
     socket.on('task request', function (msg) {
 
-        // If a task is available then send it to the client.
+        // If a task is available then send it to the worker.
         var task = findNextTask();
         if (task) {
             socket.emit('task send', JSON.stringify(task));
@@ -47,7 +47,7 @@ io.on('connection', function (socket) {
 
 
     /**
-     * When the client finishes a task
+     * When the worker finishes a task
      */
     socket.on('task done', function (taskJSON) {
         console.log('Task completed', taskJSON);
@@ -55,7 +55,7 @@ io.on('connection', function (socket) {
 
 
     /**
-     * When the client has a task error
+     * When the worker has a task error
      */
     socket.on('task error', function (msg) {
         console.log('Task error', msg);
@@ -63,7 +63,7 @@ io.on('connection', function (socket) {
 
 
     /**
-     * When the client wants to add tasks to the list
+     * When the worker wants to add tasks to the list
      */
     socket.on('task add', function (tasks) {
         console.log('Task added', tasks);
@@ -87,26 +87,26 @@ function findNextTask() {
 
 
 /**
- * Searches for clients connected to the socket.io server
+ * Searches for workers connected to the socket.io master
  *
- * @param namespace - Filter clients by namespace
- * @param room - Filter clients by room
+ * @param namespace - Filter workers by namespace
+ * @param room - Filter workers by room
  * @returns {Array}
  */
-function findClients(namespace, room) {
-    var clients = [], ns = io.of(namespace || "/");
+function findWorkers(namespace, room) {
+    var workers = [], ns = io.of(namespace || "/");
 
     if (ns) {
         for (var id in ns.connected) {
             if (room) {
                 var index = ns.connected[id].rooms.indexOf(room);
                 if (index !== -1) {
-                    clients.push(ns.connected[id]);
+                    workers.push(ns.connected[id]);
                 }
             } else {
-                clients.push(ns.connected[id]);
+                workers.push(ns.connected[id]);
             }
         }
     }
-    return clients;
+    return workers;
 }
