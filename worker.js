@@ -2,7 +2,11 @@
  * Created by James on 2/8/2015.
  */
 
-var socket = require('socket.io-client')('http://192.168.1.10:3000');
+var options = {};
+options.master = process.argv[2] || 'http://192.168.1.10:3000';
+options.timeout = process.argv[3] || 300000; // 5 minutes is the default timeout time
+
+var socket = require('socket.io-client')(options.master);
 var Task = require('./task');
 
 var busy = false;
@@ -25,13 +29,20 @@ socket.on('task send', function (taskJSON) {
     var taskParsed = JSON.parse(taskJSON);
     var task = new Task(taskParsed.task, taskParsed.params);
 
+    // timer will trigger an error if options.timeout expires before task emits 'done'.
+    var timer = setTimeout(function () {
+        task.emit('error', 'Task timed out')
+    }, options.timeout);
+
     // Setup the task communication via an event emitter worker
+    // TODO: can this be removed
     var eventEmitter = new events.EventEmitter();
 
     /**
      * When the worker is done with the task
      */
     task.on('done', function () {
+        clearTimeout(timer);
         console.log('task done', taskJSON);
         socket.emit('task done', taskJSON);
     });
@@ -45,6 +56,6 @@ socket.on('task send', function (taskJSON) {
     });
 
     // Run the task
-    var taskScript = require(task.task)(task, ee);
+    var taskScript = require(task.task)(task, ee); // Where does this ee come from
 
 });
