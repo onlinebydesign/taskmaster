@@ -5,7 +5,7 @@
 var util = require("util");
 var ee = require("events").EventEmitter;
 
-exports = function Task(task, params) {
+var Task = function (task, params) {
     ee.call(this);
 
     this.done = function (msg) {
@@ -15,5 +15,10 @@ exports = function Task(task, params) {
     this.error = function (msg) {
         this.emit('error', msg);
     };
+
+    this.task = task;
+    this.params = params;
 };
 util.inherits(Task, ee);
+
+module.exports = Task;

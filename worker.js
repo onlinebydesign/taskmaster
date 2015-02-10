@@ -31,12 +31,12 @@ socket.on('task send', function (taskJSON) {
 
     // timer will trigger an error if options.timeout expires before task emits 'done'.
     var timer = setTimeout(function () {
-        task.emit('error', 'Task timed out')
+        task.error('Task timed out');
     }, options.timeout);
 
     // Setup the task communication via an event emitter worker
     // TODO: can this be removed
-    var eventEmitter = new events.EventEmitter();
+    //var eventEmitter = new events.EventEmitter();
 
     /**
      * When the worker is done with the task
@@ -56,6 +56,6 @@ socket.on('task send', function (taskJSON) {
     });
 
     // Run the task
-    var taskScript = require(task.task)(task, ee); // Where does this ee come from
+    var taskScript = require('./' + task.task)(task);
 
 });
