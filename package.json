@@ -5,6 +5,7 @@
   "main": "master.js",
   "dependencies": {
     "mongoose": "^3.8.23",
+    "npm": "^2.5.0",
     "socket.io": "^1.3.3",
     "socket.io-client": "^1.3.3"
   },

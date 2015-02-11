@@ -18,12 +18,7 @@ var Task = function (task, params, options) {
 
     // Run the task
     var taskScript = require('./tasks/' + task);
-    try {
-        taskScript.apply(this, params);
-    }
-    catch (e) {
-        this.error(e);
-    }
+    taskScript.apply(this, params);
 };
 util.inherits(Task, ee);
 

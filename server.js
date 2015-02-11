@@ -9,23 +9,16 @@ mongoose.connect('mongodb://localhost/taskrunner');
 
 // Load models
 var Tasks = require('./models/tasks');
-var tasks = [];
-
-// Connect to database and get the list of tasks
-Tasks.find(function (err, results) {
-    tasks = results;
-});
-
 
 /**
- * When a worker establishes/reestablishes connection
+ * When a client establishes/reestablishes connection
  */
 io.on('connection', function (socket) {
     console.log('Workers connected: ', findWorkers().length);
 
 
     /**
-     * When the worker disconnects
+     * When the client disconnects
      */
     socket.on('disconnect', function () {
         console.log('Workers connected: ', findWorkers().length);
@@ -33,40 +26,44 @@ io.on('connection', function (socket) {
 
 
     /**
-     * When the worker requests a task
+     * When the client worker requests a task
      */
-    socket.on('task request', function (msg) {
+    socket.on('taskRequest', function (msg) {
 
         // If a task is available then send it to the worker.
         var task = findNextTask();
         if (task) {
-            socket.emit('task send', JSON.stringify(task));
-            console.log('Task submitted', JSON.stringify(task));
+            socket.emit('taskSend', JSON.stringify(task));
+            console.log('Worker submitted', JSON.stringify(task));
         }
     });
 
 
     /**
-     * When the worker finishes a task
+     * When the client worker finishes a task
      */
-    socket.on('task done', function (taskJSON) {
-        console.log('Task completed', taskJSON);
+    socket.on('taskDone', function (taskJSON) {
+        console.log('Worker completed', taskJSON);
+
+        // Record in the database that the task is done.
+        // TODO: Update the task as complted
+        //Tasks.update();
     });
 
 
     /**
-     * When the worker has a task error
+     * When the client worker has a task error
      */
-    socket.on('task error', function (msg) {
-        console.log('Task error', msg);
+    socket.on('taskError', function (msg) {
+        console.log('Worker error', msg);
     });
 
 
     /**
-     * When the worker wants to add tasks to the list
+     * When the client wants to add tasks to the list
      */
-    socket.on('task add', function (tasks) {
-        console.log('Task added', tasks);
+    socket.on('taskAdd', function (tasks) {
+        console.log('Worker added', tasks);
     });
 });
 
@@ -80,6 +77,14 @@ io.on('connection', function (socket) {
  * Finds the next available task
  */
 function findNextTask() {
+    var tasks = [];
+    // Connect to database and get the list of tasks
+    Tasks.find(function (err, results) {
+        if (err) return console.error(err);
+
+        tasks = results;
+    });
+
     // Sort the tasks by priority
 
     return tasks[0];
