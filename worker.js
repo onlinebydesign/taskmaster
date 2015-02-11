@@ -27,22 +27,12 @@ socket.on('connect', function () {
 socket.on('task send', function (taskJSON) {
     console.log('Received a task from master', taskJSON);
     var taskParsed = JSON.parse(taskJSON);
-    var task = new Task(taskParsed.task, taskParsed.params);
-
-    // timer will trigger an error if options.timeout expires before task emits 'done'.
-    var timer = setTimeout(function () {
-        task.error('Task timed out');
-    }, options.timeout);
-
-    // Setup the task communication via an event emitter worker
-    // TODO: can this be removed
-    //var eventEmitter = new events.EventEmitter();
+    var task = new Task(taskParsed.task, taskParsed.params, {"timeout": options.timeout});
 
     /**
      * When the worker is done with the task
      */
     task.on('done', function () {
-        clearTimeout(timer);
         console.log('task done', taskJSON);
         socket.emit('task done', taskJSON);
     });
@@ -53,9 +43,8 @@ socket.on('task send', function (taskJSON) {
     task.on('error', function (err) {
         console.log('task error', err);
         socket.emit('task error', err);
+
+        // Destroy the task (and make sure all event listeners are gone so we don't have a memory leak)
+        //task.destroy();
     });
-
-    // Run the task
-    var taskScript = require('./' + task.task)(task);
-
 });
