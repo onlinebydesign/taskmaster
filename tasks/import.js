@@ -1,5 +1,5 @@
 module.exports = function (params) {
     setTimeout((function () {
         this.done('Done with task!!!!!!!!!!');
-    }).bind(this), 1000);
+    }).bind(this), 10000);
 };

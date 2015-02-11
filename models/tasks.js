@@ -5,8 +5,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var assignmentSchema = new Schema();
-
 var taskSchema = new Schema({
     "created": Number,
     "priority": Number,
@@ -20,4 +18,4 @@ var taskSchema = new Schema({
     "dependencies": [Schema.Types.Mixed]
 });
 
-module.exports = mongoose.model('Task', taskSchema);
+module.exports = mongoose.model('Worker', taskSchema);
