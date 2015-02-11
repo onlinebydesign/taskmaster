@@ -1,5 +1,7 @@
 /**
  * Created by James on 2/10/2015.
+ *
+ * Worker takes a task and runs the task.
  */
 
 var util = require("util");
@@ -12,13 +14,17 @@ var Task = function (task, params, options) {
 
     // timer will trigger an error if options.timeout expires before task emits 'done'.
     this.timer = setTimeout((function () {
-        this.error('Task timed out');
+        this.error('Worker timed out');
     }).bind(this), options.timeout);
 
 
     // Run the task
-    var taskScript = require('./tasks/' + task);
-    taskScript.apply(this, params);
+    try {
+        var taskScript = require('./tasks/' + task);
+        taskScript.apply(this, params);
+    } catch (e) {
+        this.error(e);
+    }
 };
 util.inherits(Task, ee);
 
