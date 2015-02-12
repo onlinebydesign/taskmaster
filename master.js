@@ -1,5 +1,8 @@
 /**
  * Created by James on 2/8/2015.
+ *
+ * The master is in charge of keeping track of task requests from the runners and assigning tasks as they become available.
+ * The master also manages adding and updating tasks in the mongodb
  */
 
 var io = require('socket.io')(3000);
