@@ -2,6 +2,7 @@
     "role": "runner",
 
     "masterPort": 3000,
+    "masterHost": "localhost",
 
     "runnerTimeout": 300000
 }
