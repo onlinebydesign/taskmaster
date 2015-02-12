@@ -7,7 +7,7 @@
 var util = require("util");
 var ee = require("events").EventEmitter;
 
-var Task = function (task, params, options) {
+var Worker = function (task, params, options) {
     options.timeout = options.timeout || 300000; // 5 minutes is the default timeout time
 
     ee.call(this);
@@ -22,27 +22,24 @@ var Task = function (task, params, options) {
     try {
         var taskScript = require('./tasks/' + task);
         taskScript.apply(this, params);
+        this.run();
     } catch (e) {
         this.error(e);
     }
 };
-util.inherits(Task, ee);
+util.inherits(Worker, ee);
 
-Task.prototype.run = function () {
-    this.emit('run', msg);
-};
-
-Task.prototype.done = function (msg) {
+Worker.prototype.done = function (msg) {
     clearTimeout(this.timer);
     this.emit('done', msg);
 };
 
-Task.prototype.error = function (msg) {
+Worker.prototype.error = function (msg) {
     this.emit('error', msg);
 };
 
-Task.prototype.add = function (msg) {
+Worker.prototype.add = function (msg) {
     // TODO: Figure this out
 };
 
-module.exports = Task;
+module.exports = Worker;

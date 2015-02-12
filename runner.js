@@ -3,7 +3,7 @@
  */
 
 var options = {};
-options.master = process.argv[2] || 'http://192.168.0.147:3000';
+options.master = process.argv[2] || 'http://localhost:3000';
 options.timeout = process.argv[3] || 300000; // 5 minutes is the default timeout time
 
 var socket = require('socket.io-client')(options.master);
@@ -23,7 +23,7 @@ socket.on('connect', function () {
 });
 
 /**
- * When the master sends a task to the client create a new worker for the task
+ * When the master sends a task to the client, create a new worker for the task
  */
 socket.on('task:send', function (taskJSON) {
     console.log('Received a task from master', taskJSON);
@@ -41,7 +41,6 @@ socket.on('task:send', function (taskJSON) {
 //            console.log(message);
 //        })
 //    });
-
 
     var worker = new Worker(taskParsed.task, taskParsed.params, {"timeout": options.timeout});
 

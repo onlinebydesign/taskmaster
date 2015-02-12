@@ -17,14 +17,14 @@ var Tasks = require('./models/tasks');
  * When a runner establishes/reestablishes connection
  */
 io.on('connection', function (socket) {
-    console.log('Workers connected: ', findWorkers().length);
+    console.log('Runner connected. (', findWorkers().length, ')');
 
 
     /**
      * When the runner disconnects
      */
     socket.on('disconnect', function () {
-        console.log('Workers connected: ', findWorkers().length);
+        console.log('Runner disconnected. (', findWorkers().length, ')');
     });
 
 
@@ -89,7 +89,7 @@ io.on('connection', function (socket) {
 function findNextTask() {
     var tasks = [];
     // Connect to database and get the list of tasks
-    Tasks.find(function (err, results) {
+    Tasks.find({}, function (err, results) {
         if (err) return console.error(err);
 
         tasks = results;
