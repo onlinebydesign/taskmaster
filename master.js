@@ -5,6 +5,8 @@
  * The master also manages adding and updating tasks in the mongodb
  */
 
+console.log('master started');
+
 var io = require('socket.io')(3000);
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/taskrunner');

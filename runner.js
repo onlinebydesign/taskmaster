@@ -2,6 +2,8 @@
  * Created by James on 2/8/2015.
  */
 
+console.log('runner started');
+
 var options = {};
 options.master = process.argv[2] || 'http://localhost:3000';
 options.timeout = process.argv[3] || 300000; // 5 minutes is the default timeout time
