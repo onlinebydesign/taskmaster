@@ -74,6 +74,8 @@ io.on('connection', function (socket) {
     socket.on('task:add', function (tasks) {
         console.log('Worker added', tasks);
         // TODO: Make this work
+
+        socket.emit('task:added', tasks);
     });
 });
 

@@ -63,9 +63,14 @@ socket.on('task:send', function (taskJSON) {
         //task.destroy();
     });
 
-    worker.on('task:add', function () {
-        console.log('task:error', err);
-        socket.emit('task:add', err);
+    /**
+     * TODO: Decide when this should be run, before after, or parallel to the done event.
+     * Allows the worker to add a task if the worker decides one is need. Can be used to reduce the complexity of
+     * dependencies in some situations.
+     */
+    worker.on('task:add', function (newTask) {
+        console.log('task:add', newTask);
+        socket.emit('task:add', newTask);
 
         // Destroy the task (and make sure all event listeners are gone so we don't have a memory leak)
         //task.destroy();
