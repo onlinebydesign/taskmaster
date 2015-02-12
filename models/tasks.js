@@ -18,4 +18,4 @@ var taskSchema = new Schema({
     "dependencies": [Schema.Types.Mixed]
 });
 
-module.exports = mongoose.model('Worker', taskSchema);
+module.exports = mongoose.model('Task', taskSchema);

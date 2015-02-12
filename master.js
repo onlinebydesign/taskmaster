@@ -11,20 +11,37 @@ mongoose.connect('mongodb://localhost/taskrunner');
 
 
 // Load models
-var Tasks = require('./models/tasks');
+var Task = require('./models/tasks');
+
+// Variables
+var tasks = [];
+var tasksLoaded = false;
+
+// Connect to database and get the list of tasks
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function (callback) {
+    Task.find(function (err, docs) {
+        if (err) return console.error(err);
+
+        tasks = docs;
+        tasksLoaded = true;
+    });
+});
+
 
 /**
  * When a runner establishes/reestablishes connection
  */
 io.on('connection', function (socket) {
-    console.log('Runner connected. (', findWorkers().length, ')');
+    console.log('Runner connected.\t(', findWorkers().length, ')');
 
 
     /**
      * When the runner disconnects
      */
     socket.on('disconnect', function () {
-        console.log('Runner disconnected. (', findWorkers().length, ')');
+        console.log('Runner disconnected.\t(', findWorkers().length, ')');
     });
 
 
@@ -53,7 +70,7 @@ io.on('connection', function (socket) {
 
         // Record in the database that the task is done.
         // TODO: Update the task as completed
-        //Tasks.update();
+        //Task.update();
     });
 
 
@@ -89,17 +106,11 @@ io.on('connection', function (socket) {
  * Finds the next available task
  */
 function findNextTask() {
-    var tasks = [];
-    // Connect to database and get the list of tasks
-    Tasks.find({}, function (err, results) {
-        if (err) return console.error(err);
-
-        tasks = results;
-    });
-
     // Sort the tasks by priority
-
-    return tasks[0];
+    if(tasksLoaded) {
+        return tasks[0];
+    }
+    return null;
 }
 
 

@@ -6,3 +6,5 @@
 
 // TODO: Load the config/ENV/params and determine if we are running a master or runner
 // TODO: Move the master and runner in a sub directory
+var config = require('./config.json');
+console.log(config.foo);

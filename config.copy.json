@@ -1,0 +1,7 @@
+{
+    "role": "runner",
+
+    "masterPort": 3000,
+
+    "runnerTimeout": 300000
+}

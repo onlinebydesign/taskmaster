@@ -22,7 +22,6 @@ var Worker = function (task, params, options) {
     try {
         var taskScript = require('./tasks/' + task);
         taskScript.apply(this, params);
-        this.run();
     } catch (e) {
         this.error(e);
     }
