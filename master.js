@@ -14,14 +14,14 @@ mongoose.connect('mongodb://localhost/taskrunner');
 var Tasks = require('./models/tasks');
 
 /**
- * When a client establishes/reestablishes connection
+ * When a runner establishes/reestablishes connection
  */
 io.on('connection', function (socket) {
     console.log('Workers connected: ', findWorkers().length);
 
 
     /**
-     * When the client disconnects
+     * When the runner disconnects
      */
     socket.on('disconnect', function () {
         console.log('Workers connected: ', findWorkers().length);
@@ -29,44 +29,51 @@ io.on('connection', function (socket) {
 
 
     /**
-     * When the client worker requests a task
+     * When the runner requests a task
      */
-    socket.on('taskRequest', function (msg) {
+    socket.on('task:request', function (msg) {
 
         // If a task is available then send it to the worker.
         var task = findNextTask();
         if (task) {
-            socket.emit('taskSend', JSON.stringify(task));
+            socket.emit('task:send', JSON.stringify(task));
             console.log('Worker submitted', JSON.stringify(task));
+        }
+        else {
+            // TODO: Keep a list of runners that are waiting for a task
         }
     });
 
 
     /**
-     * When the client worker finishes a task
+     * When a runner worker finishes a task
      */
-    socket.on('taskDone', function (taskJSON) {
+    socket.on('task:done', function (taskJSON) {
         console.log('Worker completed', taskJSON);
 
         // Record in the database that the task is done.
-        // TODO: Update the task as complted
+        // TODO: Update the task as completed
         //Tasks.update();
     });
 
 
     /**
-     * When the client worker has a task error
+     * When a runner worker has a task error
      */
-    socket.on('taskError', function (msg) {
+    socket.on('task:error', function (msg) {
         console.log('Worker error', msg);
+        // TODO: Log errors in a logs collection
+        // TODO: Email when error occurs
+        // TODO: Clear/reset assigned state so task can be reassigned
     });
 
 
     /**
-     * When the client wants to add tasks to the list
+     * When a runner wants to add tasks to the list
      */
-    socket.on('taskAdd', function (tasks) {
+    socket.on('task:add', function (tasks) {
         console.log('Worker added', tasks);
+        // TODO: Make this work
     });
 });
 

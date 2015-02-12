@@ -39,7 +39,10 @@ Task.prototype.done = function (msg) {
 
 Task.prototype.error = function (msg) {
     this.emit('error', msg);
-    
+};
+
+Task.prototype.add = function (msg) {
+    // TODO: Figure this out
 };
 
 module.exports = Task;
