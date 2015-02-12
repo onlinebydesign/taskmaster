@@ -7,7 +7,7 @@ options.master = process.argv[2] || 'http://192.168.1.10:3000';
 options.timeout = process.argv[3] || 300000; // 5 minutes is the default timeout time
 
 var socket = require('socket.io-client')(options.master);
-var Worker = require('./task');
+var Worker = require('./worker');
 var npm = require("npm");
 
 var busy = false;
