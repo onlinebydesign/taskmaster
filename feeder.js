@@ -8,7 +8,8 @@ var ee = require("events").EventEmitter;
 
 module.exports = function (options) {
     "use strict";
-    options.master = process.master || 'http://localhost:3000';
+    options = options || {};
+    options.master = options.master || 'http://localhost:3000';
 
     var socket = require('socket.io-client')(options.master);
 
