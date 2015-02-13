@@ -4,7 +4,6 @@
  * This loads up either the master or the runner depending on what the role of this instance is.
  */
 
-// TODO: Load the config/ENV/params and determine if we are running a master or runner
 // TODO: Move the master and runner in a sub directory
 var config = require('./config.json');
 
@@ -16,4 +15,8 @@ config.role = process.argv[2] || config.role;
 /**
  * start app based on config file
  */
-require('./' + config.role);
+if (config.role === 'master') {
+    require('./lib/master')(config.masterPort);
+} else if (config.role === 'runner') {
+    require('./lib/runner')(config.masterHost, config.masterPort, config.runnerTimeout);
+}
