@@ -13,7 +13,7 @@ var taskSchema = new Schema({
         "when": Number,
         "completed": Number
     },
-    "task": String,
+    "module": String,
     "params": [Schema.Types.Mixed],
     "dependencies": [Schema.Types.Mixed]
 });

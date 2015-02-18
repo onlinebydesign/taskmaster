@@ -4,5 +4,6 @@
     "masterPort": 3000,
     "masterHost": "localhost",
 
-    "runnerTimeout": 300000
+    "runnerTimeout": 300000,
+    "runnerMaxWorkers": 1
 }

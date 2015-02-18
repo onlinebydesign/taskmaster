@@ -8,9 +8,6 @@
 var config = require('./config.json');
 
 config.role = process.argv[2] || config.role;
-//config.masterport = process.argv[3] || config.masterport;
-//config.masterhost = process.argv[4] || config.masterhost;
-//config.runnertimeout = process.argv[5] || config.runnertimeout;
 
 /**
  * start app based on config file
@@ -18,5 +15,8 @@ config.role = process.argv[2] || config.role;
 if (config.role === 'master') {
     require('./lib/master')(config.masterPort);
 } else if (config.role === 'runner') {
-    require('./lib/runner')(config.masterHost, config.masterPort, config.runnerTimeout);
+    require('./lib/runner')(config.masterHost, config.masterPort, {
+        timeout: config.runnerTimeout,
+        maxWorkers: config.runnerMaxWorkers
+    });
 }
