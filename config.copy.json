@@ -4,6 +4,7 @@
     "masterPort": 3000,
     "masterHost": "localhost",
 
+    "runnerName": "archon",
     "runnerTimeout": 300000,
-    "runnerMaxWorkers": 1
+    "runnerMaxWorkers": 2
 }
