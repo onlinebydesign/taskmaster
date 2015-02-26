@@ -2,6 +2,9 @@
  * The schema of the log entry
  * @type {Mongoose.Schema}
  */
+
+var mongoose = require('mongoose');
+
 var LogEntrySchema = new mongoose.Schema({
     msg: {
         type: String,
