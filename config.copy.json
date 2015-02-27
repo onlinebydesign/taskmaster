@@ -1,10 +1,12 @@
 {
     "role": "runner",
 
+    "MANDRILL_API_KEY": "",
+
     "masterPort": 3000,
     "masterHost": "localhost",
 
-    "runnerName": "archon",
+    "runnerName": "",
     "runnerTimeout": 300000,
     "runnerMaxWorkers": 2
 }
