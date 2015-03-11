@@ -1,10 +1,10 @@
+"use strict";
 /**
- * Created by James on 2/11/2015.
+ * Created by Online By Design LLC.
  *
  * This loads up either the master or the runner depending on what the role of this instance is.
  */
 
-// TODO: Move the master and runner in a sub directory
 var config = require('./config.json');
 
 config.role = process.argv[2] || config.role || 'runner';

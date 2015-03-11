@@ -1,13 +1,16 @@
+"use strict";
 /**
- * Created by James on 2/9/2015.
+ * Created by Online By Design LLC.
  */
 
 var mongoose = require('mongoose');
+var moment = require('moment');
+
 var Schema = mongoose.Schema;
 
 var taskSchema = new Schema({
-    "created": Number,
-    "priority": Number,
+    "created": {type: Number, default: moment().unix()},
+    "priority": {type: Number, default: 50},
     "assigned": {
         "who": String,
         "when": Number,
