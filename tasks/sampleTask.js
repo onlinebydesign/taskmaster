@@ -1,3 +1,4 @@
+'use strict';
 module.exports = function (params) {
     setTimeout((function () {
         this.done('Done with import task!');

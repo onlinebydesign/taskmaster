@@ -5,8 +5,9 @@
 
     "masterPort": 3000,
     "masterHost": "localhost",
+    "runnerTimeout": 300000,
 
     "runnerName": "",
-    "runnerTimeout": 300000,
-    "runnerMaxWorkers": 2
+    "runnerMaxWorkers": 2,
+    "taskFolder": "../tasks/"
 }

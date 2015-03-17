@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /**
  * Created by Online By Design LLC.
  *

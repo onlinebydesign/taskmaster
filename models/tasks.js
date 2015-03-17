@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /**
  * Created by Online By Design LLC.
  */
@@ -11,6 +11,7 @@ var Schema = mongoose.Schema;
 var taskSchema = new Schema({
     "created": {type: Number, default: moment().unix()},
     "priority": {type: Number, default: 50},
+    "timeout": Number,
     "assigned": {
         "who": String,
         "when": Number,
