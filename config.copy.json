@@ -9,5 +9,5 @@
 
     "runnerName": "",
     "runnerMaxWorkers": 2,
-    "taskFolder": "../tasks/"
+    "taskFolder": "tasks/"
 }

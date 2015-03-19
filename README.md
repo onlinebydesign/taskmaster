@@ -36,5 +36,11 @@ feeder.emit('task:add', batch);
 
 Example of Task
 ```javascript
-
+module.exports = function (params) {
+    setTimeout((function () {
+        this.done('Done with import task!');
+    }).bind(this), 10000);
+};
 ```
+
+Create a copy of config.copy.json and rename it config.json. Edit fields to match your need.
