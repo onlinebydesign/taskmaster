@@ -31,7 +31,7 @@ var batch = [
     }
 ];
 
-feeder.emit('task:add', batch);
+feeder.add(batch);
 ```
 
 Example of Task
