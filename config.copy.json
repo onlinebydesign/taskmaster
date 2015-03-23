@@ -1,0 +1,13 @@
+{
+    "role": "runner",
+
+    "masterPort": 3000,
+    "masterHost": "localhost",
+    "runnerTimeout": 300000,
+    "taskDb": "mongodb://localhost/taskrunner",
+
+    "runnerName": "",
+    "runnerMaxWorkers": 2,
+    "taskFolder": "tasks",
+    "logger": "./logger.bunyan.example"
+}
