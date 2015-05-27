@@ -44,3 +44,5 @@ module.exports = function (params) {
 ```
 
 Create a copy of config.copy.json and rename it config.json. Edit fields to match your need.
+
+This was included in a presentation at [Boise Code Camp](http://lanyrd.com/2015/boise-code-camp/sdkfqb/). Here is a link to the [slides](https://slides.com/jedediahsmith/dist).

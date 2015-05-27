@@ -73,3 +73,5 @@ crashlytics-build.properties
 
 #Config file
 config.json
+
+logger.bunyan.js
