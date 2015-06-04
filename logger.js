@@ -1,19 +1,49 @@
 'use strict';
-module.exports = function (options) {
-    if (options.logger) {
-        return require(options.logger)(options);
-    }
+var bunyan = require('bunyan');
+var MongoLogStream = require('bunyan-mongodb-stream');
+var EmailStream = require('bunyan-emailstream').EmailStream;
+var BunyanSlack = require('bunyan-slack');
 
-    return new function() {
-        //Basic logging to the screen
-        this.info = function () {
-            console.log.apply(this, arguments);
-        };
-        this.warn = function () {
-            console.log.apply(this, arguments);
-        };
-        this.error = function () {
-            console.error.apply(this, arguments);
-        };
-    };
+module.exports = function () {
+    return bunyan.createLogger({
+        name: 'taskmaster',
+        streams: [{
+            level: 'info',
+            stream: process.stdout
+        }, {
+            level: 'info',
+            type: 'rotating-file',
+            path: './logs/taskmaster-info.log',
+            period: '1d',
+            count: 7
+        }, {
+            level: 'warn',
+            stream: MongoLogStream({model: require('models/logs')})
+        }, {
+            type: 'raw',
+            level: 'warn',
+            stream: new BunyanSlack({
+                webhook_url: '',
+                channel: '',
+                username: ''
+            })
+        }, {
+            type: 'raw',
+            level: 'error',
+            stream: new EmailStream({
+                from: '',
+                to: '',
+                subject: 'test email logging',
+                message: 'test'
+            }, {
+                type: 'SMTP',
+                host: "smtp.gmail.com",
+                port: 587,
+                auth: {
+                    user: '',
+                    pass: ''
+                }
+            })
+        }]
+    });
 };

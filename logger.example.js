@@ -4,7 +4,7 @@ var MongoLogStream = require('bunyan-mongodb-stream');
 var EmailStream = require('bunyan-emailstream').EmailStream;
 var BunyanSlack = require('bunyan-slack');
 
-module.exports = function (options) {
+module.exports = function () {
     return bunyan.createLogger({
         name: 'taskmaster',
         streams: [{
