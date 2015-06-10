@@ -15,7 +15,8 @@ var taskSchema = new Schema({
     "assigned": {
         "who": String,
         "when": Number,
-        "completed": Number
+        "completed": Number,
+        "status": String
     },
     "module": String,
     "params": [Schema.Types.Mixed],

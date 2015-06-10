@@ -22,6 +22,7 @@ var LogEntrySchema = new mongoose.Schema({
         type: Date,
         required: true
     },
+    task: String,
     res : {
         type: Object
     },

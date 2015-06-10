@@ -1,13 +1,17 @@
 {
+    "version": 1,
     "role": "runner",
-
-    "masterPort": 3000,
-    "masterHost": "localhost",
-    "runnerTimeout": 300000,
-    "taskDb": "mongodb://localhost/taskrunner",
-
-    "runnerName": "",
-    "runnerMaxWorkers": 2,
-    "taskFolder": "tasks",
-    "logger": "./logger.bunyan.example"
+    "master": {
+        "port": 3000,
+        "host": "localhost",
+        "mongoURL": "mongodb://localhost/taskrunner"
+    },
+    "runner": {
+        "name": "archon",
+        "maxWorkers": 2,
+        "taskFolder": "tasks",
+        "worker": {
+            "timeout": 300000
+        }
+    }
 }
