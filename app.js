@@ -16,7 +16,7 @@ var config = _.defaults(require('./config.json'), {
     },
     "runner": {
         "name": "archon", // TODO: Have runner automatically determine this by hostname
-        "maxWorkers": 2, // TODO: Have runner automatically determine this based on CPU Cores
+        "maxWorkers": 2, // TODO: Have runner automatically determine this default based on CPU Cores
         "taskFolder": "tasks",
         "worker": {
             "timeout": 300000 // 5 min
@@ -27,7 +27,7 @@ var config = _.defaults(require('./config.json'), {
 /**
  * start app based on config file
  */
-if (config.role === 'master') {
+if (process.argv[2] === 'master' || config.role === 'master') {
     require('./lib/master')(config);
 } else if (config.role === 'runner') {
     require('./lib/runner')(config);
