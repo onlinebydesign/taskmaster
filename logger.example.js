@@ -24,7 +24,27 @@ module.exports = bunyan.createLogger({
         stream: new BunyanSlack({
             webhook_url: '',
             channel: '',
-            username: 'Task Master'
+            username: '',
+            icon_emoji: '',
+            customFormatter: function (record, levelName) {
+                var fields = [];
+                for (var field in record.err) {
+                    fields.push({title: field, value: '```' + record.err[field] + '```', short: false});
+                }
+                return {
+                    attachments: [{
+                        fallback: record.msg,
+                        pretext: '',
+                        color: (levelName == 'error' || levelName == 'fatal') ? 'danger' : (levelName == 'warn') ? 'warning' : '#aaa',
+                        author_name: record.name + '@' + record.hostname,
+                        author_icon: '',
+                        title: '[' + levelName.toUpperCase() + '] ' + record.msg,
+                        text: (levelName == 'error' || levelName == 'fatal') ? 'Attn: <!channel>' : '',
+                        fields: fields,
+                        'mrkdwn_in': ["pretext", "text", "fields"]
+                    }]
+                }
+            }
         })
     }, {
         type: 'raw',
