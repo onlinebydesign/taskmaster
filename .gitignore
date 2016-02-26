@@ -68,6 +68,7 @@ crashlytics-build.properties
 
 #Config file
 config.json
+/config.json.prod
 
 logger.js
 test.js
